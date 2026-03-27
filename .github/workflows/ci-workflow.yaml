@@ -21,4 +21,17 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
+      - name: Code Quality analysis
+        run: dotnet format Web.csproj --verify-no-changes
+      - name: Security Scan
+        run: dotnet list package --vulnerable
+      #- name: Run application
+       # run: dotnet run --configuration Release
+      - name: Publish Application
+        run: dotnet publish -c Release -o publish_output
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-app
+          path: publish_output
         
